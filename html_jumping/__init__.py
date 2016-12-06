@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import urllib
-from urlparse import urlparse
+from urllib.parse import urlparse
 from copy import deepcopy
 
 import httplib2
@@ -27,7 +27,7 @@ class HtmlJumping(object):
     @staticmethod
     def _get_cookies(headers):
         cookies = ""
-        keys = filter(lambda el: el[1] == 'set-cookie', [(key, key.lower()) for key in headers.keys()])
+        keys = list (filter(lambda el: el[1] == 'set-cookie', [(key, key.lower()) for key in headers.keys()]))
         if len(keys) >0:
             cookies = headers.get(keys[0][1])
         final_cookies = ""
@@ -46,7 +46,7 @@ class HtmlJumping(object):
                 headers[key] = value
 
     def _set_headers(self, headers, to_add_headers):
-        for key, value in to_add_headers.iteritems():
+        for key, value in to_add_headers.items():
             self._set_header(headers, key, value)
     
     @staticmethod
@@ -58,9 +58,9 @@ class HtmlJumping(object):
     def _prepare_get_url_with_body(url, body):
         parsed_url = urlparse(url)
         if not parsed_url.query:
-            url += "?%s" % urllib.urlencode(body)
+            url += "?%s" % urllib.parse.urlencode(body)
         else:
-            url += "&%s" % urllib.urlencode(body)
+            url += "&%s" % urllib.parse.urlencode(body)
         return url
 
     @staticmethod
